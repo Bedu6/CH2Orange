@@ -1,0 +1,19 @@
+.flex {
+	display: flex;
+}
+
+.align_center {
+	align-items: center;
+}
+
+.space {
+	margin-left: 20px;
+}
+
+.justify_center {
+	justify-content: center;
+}
+
+a, link{
+	cursor: pointer;
+}
