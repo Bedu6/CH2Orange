@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Row, Icon, Button } from 'react-materialize';
 import { connect } from 'react-redux';
 import * as commentsActions from '../../actions/commentsActions';
-import { CAMBIO_TITULO, CAMBIO_CONTENIDO, BORRADO } from '../../types/Commentypes';
+import { CAMBIO_TITULO, CAMBIO_CONTENIDO } from '../../types/Commentypes';
 import Loader  from '../loader/Loader'
 
 class Guardar extends Component {
