@@ -1,0 +1,23 @@
+.display-flex {
+    display: flex;
+}
+
+.vertical-center {
+    align-items: center;
+}
+
+.horizontal-center {
+    justify-content: center;
+}
+
+.top-space {
+    margin-top: 16px;
+}
+
+.left-space {
+    margin-left: 32px;
+}
+
+.pointer {
+    cursor: pointer;
+}
