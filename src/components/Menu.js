@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 
 const Menu = (props) => (
     <div>
-        <Navbar brand = "React - Redux Example" left>
-            <li><NavLink to = "/" activeClassName = "active">Comments</NavLink></li>
-            <li><NavLink to = "/photos">Photos</NavLink></li>
+        <Navbar brand = "XD" left>
+            <li><NavLink to = "/" activeClassName = "active">Usuarios</NavLink></li>
+            {/* <li><NavLink to = "/dependents">Dependientes</NavLink></li> */}
         </Navbar>
     </div>
 );

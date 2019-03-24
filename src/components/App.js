@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Menu from './Menu';
-import Comments from './Comments';
-import SaveComments from './Comments/Save';
-import Photos from './Photos';
+import Users from './Users';
 
 class App extends Component {
     render() {
@@ -13,10 +11,7 @@ class App extends Component {
                     <div>
                         <Menu />
                         <div>
-                            <Route exact path = "/" component = { Comments } />
-                            <Route exact path = "/comments/save" component = { SaveComments } />
-                            <Route exact path = "/comments/edit/:id" component = { SaveComments } />
-                            <Route exact path = "/photos" component = { Photos } />
+                            <Route exact path = "/" component = { Users } />
                         </div>
                     </div>
                 </BrowserRouter>
