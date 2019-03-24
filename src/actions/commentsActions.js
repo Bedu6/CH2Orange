@@ -1,13 +1,13 @@
 import axios from'axios';
 import {
-  PULL_COMMENTS, ERROR, CARGANDO, CAMBIO_TITULO, CAMBIO_CONTENIDO, AGREGADO, EDITADO
+  PULL_COMMENTS, ERROR, CARGANDO, CAMBIO_TITULO, CAMBIO_CONTENIDO, AGREGADO, EDITADO, DELETE_POST
 } from '../types/Commentypes';
 
 export const pullComments = () => async (dispatch) => {
         dispatch({type: CARGANDO});
       
   try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/comments');
+        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
 
       dispatch({
         type: PULL_COMMENTS,
@@ -34,7 +34,7 @@ export const pullComments = () => async (dispatch) => {
         dispatch({type: CARGANDO});
         try{
            await axios.post(
-            'https://jsonplaceholder.typicode.com/comments',
+            'https://g6-ch2.herokuapp.com/api/usuarios/orange',
             cuerpo);
             window.Materialize.toast(
                'Comentario agregado exitosamente!', 
@@ -56,7 +56,7 @@ export const pullComments = () => async (dispatch) => {
     dispatch({type: CARGANDO});
       
   try {
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/comments/${id}`);
+        const response = await axios.get(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`);
         console.log(response);
 
         dispatch({
@@ -82,7 +82,7 @@ export const pullComments = () => async (dispatch) => {
     dispatch({type: CARGANDO});
     try{
        await axios.put(
-        `https://jsonplaceholder.typicode.com/comments/${id}`,
+        `https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`,
         cuerpo);
         window.Materialize.toast(
            'Comentario editado exitosamente!', 
@@ -99,4 +99,13 @@ export const pullComments = () => async (dispatch) => {
     }
 
 };
+export function deletePost(id) {
+  const request = axios.delete(`/api/usuarios/orange/${id._id}`);
+  
+
+  return {
+    type: DELETE_POST,
+    payload: request
+  }
+}
 

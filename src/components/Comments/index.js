@@ -16,19 +16,45 @@ class index extends Component {
         this.props.pullComments();
   }
 
+  onDeleteClick() {
+    this.props.deletePost(this.props.params.id)
+    .then(() => {
+      this.context.router.push('/');
+    })
+  }
+
+
   desplegar = () => (
     this.props.comments.map((comentario, key) =>(
 <tr>
-      <td>{comentario.email}</td>
-      <td>{comentario.body}</td>
+      <td>{comentario.apellidos.paterno}</td>
+      <td>{comentario.apellidos.materno}</td>
+      <td>{comentario.nombre}</td>
+      <td>{comentario.edad}</td>
       <td>
       
           <Link 
-                to={`/comments/editar/${comentario.id}`} 
+                to={`/comments/editar/${comentario._id}`} 
+                className="pointer"
+          >
+                <Icon>face</Icon>
+          </Link>
+      </td>
+      <td>
+      
+          <Link 
+                to={`/comments/editar/${comentario._id}`} 
                 className="pointer"
           >
                 <Icon>edit</Icon>
           </Link>
+      </td>
+      <td>
+      
+      
+        <button onClick={this.onDeleteClick.bind(this)} className="btn  pull-xs-right">
+        <Icon>delete</Icon>
+        </button>
       </td>
       
     </tr>
@@ -45,12 +71,14 @@ class index extends Component {
     )
   }
 
+  
+  
   render() {
    
     return(
       <div>
         <div className="flex align_center">
-            <h2>Comentarios</h2>
+            <h2>Usuarios</h2>
             
 
             <Link 

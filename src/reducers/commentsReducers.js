@@ -1,5 +1,5 @@
 import {
-  PULL_COMMENTS, ERROR, CARGANDO, CAMBIO_TITULO, CAMBIO_CONTENIDO, AGREGADO, EDITADO
+  PULL_COMMENTS, ERROR, CARGANDO, CAMBIO_TITULO, CAMBIO_CONTENIDO, AGREGADO, EDITADO, DELETE_POST
 } from '../types/Commentypes';
 
 const INITIAL_STATE = {
@@ -27,6 +27,7 @@ export default (state= INITIAL_STATE, action) => {
           [] };
         case EDITADO:
           return {...state, cargando: false, comentarios: []};
+        
           
     default: return state;
   }
