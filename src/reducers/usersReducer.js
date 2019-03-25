@@ -3,7 +3,7 @@ import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME, CHANGESECONDLASTN
 const INITIAL_STATE = {
     loading: false,
     error: '',
-    users: ['Funciona'],
+    users: [],
     id: '',
     name: '',
     firstLastName: '',

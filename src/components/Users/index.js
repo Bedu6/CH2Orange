@@ -8,12 +8,18 @@ import CustomError from '../General/CustomError';
 import UsersTable from './UsersTable';
 
 class index extends Component {
-
+    componentDidMount(){
+        console.log("bbbb")
+        if(!this.props.users.length )
+          {
+            this.props.getUsers();
+          }
+    }
     showDataInTable = () => (
         this.props.users.map((user) => (
             <tr key = { user._id } >
-                <td>{ user.apellidos }</td>
-                <td>{ user.apellidos }</td>
+                <td>{ user.apellidos.paterno }</td>
+                <td>{ user.apellidos.materno }</td>
                 <td>{ user.nombre }</td>
                 <td>{ user.edad }</td>
                 <td>
