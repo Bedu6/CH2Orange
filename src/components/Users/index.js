@@ -2,28 +2,29 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Icon } from 'react-materialize';
-import * as commentsActions from '../../actions/commentsActions';
+import * as usersActions  from '../../actions/usersActions';
 import Loading from '../General/Loading';
 import CustomError from '../General/CustomError';
-import CommentsTable from './CommentsTable';
-// import Save from './Save';
+import UsersTable from './UsersTable';
 
 class index extends Component {
-
-    componentDidMount() {
-        if (! this.props.comments.length) {
-            this.props.getComments();
-        }
+    componentDidMount(){
+        console.log("bbbb")
+        if(!this.props.users.length )
+          {
+            this.props.getUsers();
+          }
     }
-
     showDataInTable = () => (
-        this.props.comments.map((comment) => (
-            <tr key = { comment.id } >
-                <td>{ comment.email }</td>
-                <td>{ comment.body }</td>
+        this.props.users.map((user) => (
+            <tr key = { user._id } >
+                <td>{ user.apellidos.paterno }</td>
+                <td>{ user.apellidos.materno }</td>
+                <td>{ user.nombre }</td>
+                <td>{ user.edad }</td>
                 <td>
                     <Link
-                        to = { `/comments/edit/${ comment.id }` }
+                        to = { '/' }
                         className = "pointer"
                     >
                         <Icon>edit</Icon>
@@ -39,15 +40,15 @@ class index extends Component {
         else if (this.props.error)
             return <CustomError message = { this.props.error } />
         else
-            return <CommentsTable rows = { this.showDataInTable() } />
+            return <UsersTable rows = { this.showDataInTable() } />
     };
 
     render() {
         return(
             <div className = "container">
                 <div className = "display-flex vertical-center">
-                    <h2>Comments</h2>
-                    <Link icon = "add" to = "/comments/save" className = "btn waves-effect waves-light btn-large btn-floating left-space red">
+                    <h2>Usuarios</h2>
+                    <Link icon = "add" to = "/" className = "btn waves-effect waves-light btn-large btn-floating left-space red">
                         <i className = "material-icons">add</i>
                     </Link>
                 </div>
@@ -58,6 +59,6 @@ class index extends Component {
 
 }
 
-const mapStateToProps = ({ commentsReducer }) => commentsReducer;
+const mapStateToProps = ({ usersReducer }) => usersReducer;
 
-export default connect(mapStateToProps, commentsActions)(index);
+export default connect(mapStateToProps, usersActions)(index);

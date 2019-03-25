@@ -1,111 +1,114 @@
-import axios from'axios';
-import {
-  PULL_COMMENTS, ERROR, CARGANDO, CAMBIO_TITULO, CAMBIO_CONTENIDO, AGREGADO, EDITADO, DELETE_POST
-} from '../types/Commentypes';
+import axios from 'axios';
+import { LOADING, GET, ERROR, CHANGEEMAIL, CHANGECOMMENT, COMMENTADDED, COMMENTEDITED } from '../types/commentTypes';
 
-export const pullComments = () => async (dispatch) => {
-        dispatch({type: CARGANDO});
-      
-  try {
-        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
-
-      dispatch({
-        type: PULL_COMMENTS,
-        payload: response.data
-      });
-    }
-    catch(error) {
-        dispatch({
-          type: ERROR,
-          payload: error.message
-        });
-
-    }
-  };
-
-  export const cambioInput = (caso, texto) => (dispatch) => {
+export const getComments = () => async (dispatch) => {
     dispatch({
-      type: caso,
-      payload: texto
+        type: LOADING
     });
-  };
 
-  export const agregar =(cuerpo) => async (dispatch) => {
-        dispatch({type: CARGANDO});
-        try{
-           await axios.post(
-            'https://g6-ch2.herokuapp.com/api/usuarios/orange',
-            cuerpo);
-            window.Materialize.toast(
-               'Comentario agregado exitosamente!', 
-               2 * 1000
-               );
-          dispatch ({ type: AGREGADO })
-        }
-        catch (error) {
-          window.Materialize.toast(
-            'Adios, escribiste mal', 
-            2 * 1000
-            );
-            dispatch({type: ERROR });
-        }
-  
-  };
-
-  export const traerUnComentario = (id) => async (dispatch) => {
-    dispatch({type: CARGANDO});
-      
-  try {
-        const response = await axios.get(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`);
-        console.log(response);
+    try {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/comments');
 
         dispatch({
-          type: CAMBIO_TITULO,
-          payload: response.data.email
+            type: GET,
+            payload: response.data
         });
-
-        dispatch({
-          type:CAMBIO_CONTENIDO,
-          payload: response.data.body
-        })
-    }
-    catch(error) {
-        dispatch({
-          type: ERROR,
-          payload: error.message
-        });
-
-    }
-  };
-
-  export const editar =(cuerpo, id) => async (dispatch) => {
-    dispatch({type: CARGANDO});
-    try{
-       await axios.put(
-        `https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`,
-        cuerpo);
-        window.Materialize.toast(
-           'Comentario editado exitosamente!', 
-           2 * 1000
-           );
-      dispatch ({ type: EDITADO })
     }
     catch (error) {
-      window.Materialize.toast(
-        'Adios, editase mal', 
-        2 * 1000
-        );
-        dispatch({type: ERROR });
+        dispatch({
+            type: ERROR,
+            payload: error.message
+        });
     }
-
 };
-export function deletePost(id) {
-  const request = axios.delete(`/api/usuarios/orange/${id._id}`);
-  
 
-  return {
-    type: DELETE_POST,
-    payload: request
-  }
+export const getComment = (id) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    });
+
+    try {
+        const response = await axios.get(`https://jsonplaceholder.typicode.com/comments/${ id }`);
+
+        dispatch({
+            type: CHANGEEMAIL,
+            payload: response.data.email
+        });
+
+        dispatch({
+            type: CHANGECOMMENT,
+            payload: response.data.body
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: ERROR,
+            payload: error.message
+        });
+    }
+};
+
+export const changeInput = (type, value) => (dispatch) => {
+    dispatch({
+        type: type,
+        payload: value
+    });
 }
 
+export const add = (comment) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    });
+
+    try {
+        await axios.post('https://jsonplaceholder.typicode.com/comments', comment);
+
+        window.Materialize.toast(
+            'Comment Saved',
+            3000
+        );
+
+        dispatch({
+            type: COMMENTADDED
+        });
+    }
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
+
+        dispatch({
+            type: ERROR
+        });
+    }
+}
+
+export const edit = (comment, id) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    });
+
+    try {
+        await axios.put(`https://jsonplaceholder.typicode.com/comments/${ id }`, comment);
+
+        window.Materialize.toast(
+            'Comment Edited',
+            3000
+        );
+
+        dispatch({
+            type: COMMENTEDITED
+        });
+    }
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
+
+        dispatch({
+            type: ERROR
+        });
+    }
+}

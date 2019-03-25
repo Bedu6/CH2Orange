@@ -1,23 +1,14 @@
 import React from 'react';
-import { Navbar, NavItem } from 'react-materialize';
-import { Link } from 'react-router-dom';
+import { Navbar } from 'react-materialize';
+import { NavLink } from 'react-router-dom';
 
-const Menu =(props) => (
-  
-  <div>
-<Navbar left>
-  <li>
-    <Link to='/'>
-    Comments
-    </Link>
-  </li>  
-  <li>
-  <Link to='/users'>
-    Users
-    </Link>
-  </li>
-</Navbar>
-  </div>
+const Menu = (props) => (
+    <div>
+        <Navbar brand = "XD" left>
+            <li><NavLink to = "/" activeClassName = "active">Usuarios</NavLink></li>
+            {/* <li><NavLink to = "/dependents">Dependientes</NavLink></li> */}
+        </Navbar>
+    </div>
 );
 
 export default Menu;
