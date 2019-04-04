@@ -24,7 +24,7 @@ class index extends Component {
                 <td>{ user.edad }</td>
                 <td>
                     <Link
-                        to = { '/' }
+                        to = { `/users/edit/${ user}`}
                         className = "pointer"
                     >
                         <Icon>edit</Icon>
