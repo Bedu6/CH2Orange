@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux';
-import commentsReducer from './commentsReducer';
-import photosReducer from './photosReducers';
+import dependentsReducer from './dependentsReducer';
 import usersReducer from './usersReducer';
 
 export default combineReducers({
-    commentsReducer,
-    photosReducer,
+
     usersReducer,
+    dependentsReducer
 });

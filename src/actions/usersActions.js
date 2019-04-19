@@ -1,12 +1,7 @@
 import axios from 'axios';
-import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME, CHANGESECONDLASTNAME, CHANGEAGE, USERCREATED, USERUPDATED, USERDELETED } from '../types/usersTypes';
+import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME,
+     CHANGESECONDLASTNAME, CHANGEAGE, USERCREATED, USERUPDATED, USERDELETED } from '../types/usersTypes';
 
-export const changeInput = (type, value) => (dispatch) => {
-    dispatch({
-        type: type,
-        payload: value
-    });
-};
 
 export const getUsers = () => async (dispatch) => {
     dispatch({
@@ -29,63 +24,107 @@ export const getUsers = () => async (dispatch) => {
     }
 };
 
-export const createUser = (user) => async (dispatch) => {
+export const changeInput = (type, value) => (dispatch) => {
+    dispatch({
+        type: type,
+        payload: value
+    });
+};
+
+export const getOneUser = (id) => async (dispatch) => {
     dispatch({
         type: LOADING
     });
 
     try {
-        await axios.post('https://g6-ch2.herokuapp.com/api/usuarios/orange', user);
+    const response = await axios.get(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`);
 
-        window.Materialize.toast(
-            'Usuario Creado Exitosamente',
-            3000
-        );
+
+        dispatch({
+            type: CHANGENAME,
+            payload: response.data[0].nombre
+        });
+
+        dispatch({
+            type: CHANGEFIRSTLASTNAME,
+            payload: response.data[0].apellidos.paterno
+        });
+
+        dispatch({
+            type: CHANGESECONDLASTNAME,
+            payload: response.data[0].apellidos.materno
+        });
+
+        dispatch({
+            type: CHANGEAGE,
+            payload: response.data[0].edad
+        });
+    }
+    catch (error) {
+        dispatch({
+			type: ERROR,
+			payload: error.message
+		});
+	}
+};
+
+export const addUser = (user) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    });
+
+    try {
+        console.log(user);
+
+        const resp= await axios.post('https://g6-ch2.herokuapp.com/api/usuarios/orange', user);
+        console.log(resp);
 
         dispatch({
             type: USERCREATED
         });
+
+        window.Materialize.toast(
+            'Usuario Guardado Exitosamente',
+            3000
+        );   
     }
     catch (error) {
+        console.log(error.message);
         window.Materialize.toast(
-            error.message,
-            3000
+            'Problemas al guardar el usuario, intenta de nuevo', 
+			2000
         );
 
         dispatch({
             type: ERROR
         });
     }
-}
+};
 
-export const updateUser = (user, id) => async (dispatch) => {
-    dispatch({
-        type: LOADING
-    });
+export const editUser = (user, id) => async (dispatch)=>{
 
-    try {
-        await axios.post(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${ id }`, user);
+    dispatch({ type: LOADING });
+	
+	try{
+		await axios.put(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`, user);
 
-        window.Materialize.toast(
-            'Usuario Actualizado Exitosamente',
-            3000
-        );
+		dispatch({ type: USERUPDATED });
 
-        dispatch({
-            type: USERUPDATED
-        });
-    }
-    catch (error) {
-        window.Materialize.toast(
-            error.message,
-            3000
-        );
+		window.Materialize.toast(
+			'Editado exitosamente', 
+			1300
+		);
+	}
+	catch(error){
+		window.Materialize.toast(
+			'Problemas al editar comentario, intenta de nuevo', 
+			2000
+		);
+		dispatch({ type: ERROR });
+	}
 
-        dispatch({
-            type: ERROR
-        });
-    }
-}
+};
+
 
 export const deleteUser = (id) => async (dispatch) => {
     dispatch({
@@ -106,7 +145,7 @@ export const deleteUser = (id) => async (dispatch) => {
     }
     catch (error) {
         window.Materialize.toast(
-            error.message,
+           'Problemas al eliminar usuario',
             3000
         );
 
@@ -114,4 +153,4 @@ export const deleteUser = (id) => async (dispatch) => {
             type: ERROR
         });
     }
-}
+};

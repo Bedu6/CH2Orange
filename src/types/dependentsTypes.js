@@ -1,0 +1,9 @@
+export const GETDEPENDENTS = 'traer_beneficiarios';
+export const ERROR = 'beneficiarios_error';
+export const LOADING = 'beneficiarios_cargando';
+export const USERCREATED = 'beneficiarios_agregado';
+export const USERUPDATED = 'beneficiarios_editado';
+export const CHANGEAGE = 'beneficiarios_cambio_edad';
+export const CHANGENAME = 'beneficiarios_cambio_nombre';
+export const CHANGERELATION = 'beneficiarios_cambio_relacion';
+export const USER_ID = 'beneficiarios_cambio_usuario_id';

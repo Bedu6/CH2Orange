@@ -3,36 +3,43 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Icon } from 'react-materialize';
 import * as usersActions  from '../../actions/usersActions';
-import Loading from '../General/Loading';
+import Loading from '../loader/Loader';
 import CustomError from '../General/CustomError';
 import UsersTable from './UsersTable';
 
 class index extends Component {
     componentDidMount(){
         console.log("bbbb")
-        if(!this.props.users.length )
+        if(!this.props.usuarios.length )
           {
             this.props.getUsers();
           }
     }
     showDataInTable = () => (
-        this.props.users.map((user) => (
+        this.props.usuarios.map((user) => (
             <tr key = { user._id } >
                 <td>{ user.apellidos.paterno }</td>
                 <td>{ user.apellidos.materno }</td>
                 <td>{ user.nombre }</td>
                 <td>{ user.edad }</td>
                 <td>
-                    <Link
-                        to = { `/users/edit/${ user}`}
-                        className = "pointer"
-                    >
-                        <Icon>edit</Icon>
-                    </Link>
-                </td>
-            </tr>
-        ))
-    );
+                    <Link to={`/dependents/index/${user._id}`} >
+	      		        <Icon>visibility</Icon>
+	      	        </Link>
+	            </td>
+	            <td>
+	      	        <Link to={`/users/edit/${user._id}`} >
+	      		        <Icon>edit</Icon>
+	      	        </Link>
+	            </td>
+	            <td>
+	      	        <Link to={`/users/delete/${user._id}`} >
+	      		        <Icon>delete</Icon>
+	      	        </Link>
+	            </td>
+	             </tr>
+	         ))
+	        );
 
     loadContent = () => {
         if (this.props.loading)
@@ -52,6 +59,7 @@ class index extends Component {
                         <i className = "material-icons">add</i>
                     </Link>
                 </div>
+                <br></br>
                 { this.loadContent() }
             </div>
         );

@@ -3,18 +3,18 @@ import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME, CHANGESECONDLASTN
 const INITIAL_STATE = {
     loading: false,
     error: '',
-    users: [],
+    usuarios: [],
     id: '',
-    name: '',
-    firstLastName: '',
-    secondLastName: '',
-    age: ''
+    nombre: '',
+    apellido_paterno: '',
+    apellido_materno: '',
+    edad: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case GET:
-            return { ...state, users: action.payload, loading: false };
+            return { ...state, usuarios: action.payload, loading: false };
 
         case ERROR:
             return { ...state, error: action.payload, loading: false };
@@ -23,22 +23,22 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, loading: true };
 
         case CHANGENAME:
-            return { ...state, name: action.payload, loading: false };
+            return { ...state, nombre: action.payload, loading: false };
 
         case CHANGEFIRSTLASTNAME:
-            return { ...state, firstLastName: action.payload, loading: false };
+            return { ...state, apellido_paterno: action.payload, loading: false };
 
         case CHANGESECONDLASTNAME:
-            return { ...state, secondLastName: action.payload, loading: false };
+            return { ...state, apellido_materno: action.payload, loading: false };
 
         case CHANGEAGE:
-            return { ...state, age: action.payload, loading: false };
+            return { ...state, edad: action.payload, loading: false };
 
         case USERCREATED:
-            return { ...state, users: [], name: '', firstLastName: '', secondLastName: '', age: 0, loading: false };
+            return { ...state, usuarios: [], nombre: '', apellido_paterno: '', apellido_materno: '', edad: 0, loading: false };
 
         case USERUPDATED:
-            return { ...state, loading: false };
+            return { ...state, loading: false, usuarios: []};
 
         case USERDELETED:
             return { ...state, users: [], loading: false };
