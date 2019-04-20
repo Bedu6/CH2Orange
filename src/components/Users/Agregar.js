@@ -10,6 +10,7 @@ import Loader  from '../loader/Loader'
 
 class Guardar extends Component {
 componentDidMount() {
+
   if (this.props.match.params.id)
       this.props.getUsers(this.props.match.params.id);
   else {
@@ -18,16 +19,16 @@ componentDidMount() {
     this.props.changeInput(CHANGESECONDLASTNAME, '');
     this.props.changeInput(CHANGEAGE, '');
     
-  }
+}
 }
 
 localChangeInput =(event, caso)=> {
     this.props.changeInput(caso, event.target.value);
-}
-localGuardar =(event)=>{
+};
 
-  
-  const user = {
+localAdded =(event)=>{
+  const user = 
+  {
     nombre: this.props.nombre,
     apellidos:{
       paterno: this.props.apellido_paterno,
@@ -40,11 +41,10 @@ localGuardar =(event)=>{
 const id = this.props.match.params.id
 
   if(id)
-     this.props.edit(user, id);
+     this.props.edited(user, id);
   else
      this.props.added(user); 
 };
-
 
 render() {
   return (
@@ -55,7 +55,7 @@ render() {
 						label="Nombre"
 						value={ this.props.nombre }
 						onChange={
-							(event) => this.localCambioInput(event, CHANGENAME)
+							(event) => this.localChangeInput(event, CHANGENAME)
 						}
 					>
 					</Input>
@@ -64,26 +64,24 @@ render() {
               m={6} 
               label="Apellido 
               paterno" 
-              value={this.props.nombre} 
+              value={this.props.apellido_paterno} 
               onChange={ 
                 (event)=> this.localChangeInput(event, CHANGEFIRSTLASTNAME)
               
               }
           >
-             <Icon>face</Icon>
          </Input>
          <Input 
               s={6} 
               m={6} 
               label="Apellido 
               materno" 
-              value={this.props.apellido_paterno} 
+              value={this.props.apellido_materno} 
               onChange={ 
-                (event)=> this.localCambioInput(event, CHANGESECONDLASTNAME)
+                (event)=> this.localChangeInput(event, CHANGESECONDLASTNAME)
               
               }
           >
-             <Icon>face</Icon>
          </Input>
       </Row>
       <Row>
@@ -101,10 +99,10 @@ render() {
 				</Row>
 				<div className="flex justify_center">
 					<Button className="btn btn_cancelar mr">Cancelar</Button>
-					<Button className="btn btn_guardar" onClick={ this.localGuardar } >Guardar</Button>
+					<Button className="btn btn_guardar" onClick={ this.localAdded } >Guardar</Button>
 				</div>
 
-				{ (this.props.cargando) ? <Loader /> : '' }
+				{ (this.props.loader) ? <Loader /> : '' }
 			</div>
 		)
 	}	

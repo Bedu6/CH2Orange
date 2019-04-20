@@ -26,8 +26,6 @@ class Added extends Component {
 		this.props.changeInput(caso, event.target.value);
 	};
 
-	
-
 	localAdded = (event) => {
 		const dependent = 
 		{
