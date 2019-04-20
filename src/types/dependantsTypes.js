@@ -1,0 +1,9 @@
+export const GET = 'GetUsers';
+export const ERROR = 'ErrorUsers';
+export const LOADING = 'LoadingUsers';
+export const CHANGENAME = 'ChangeName';
+export const CHANGEDEPENDENCY = 'ChangeDependency';
+export const CHANGEAGE = 'ChangeAge';
+export const DEPENDANTCREATED = 'DependantCreated';
+export const DEPENDANTUPDATED = 'DependantUpdated';
+export const DEPENDANTDELETED = 'DependantDeleted';

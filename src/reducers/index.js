@@ -1,18 +1,12 @@
 import { combineReducers } from 'redux';
-<<<<<<< HEAD
-import commentsReducers from './commentsReducers';
-
-
-
-export default combineReducers({
-  commentsReducers,
- 
-=======
-import comentariosReducer from './comentariosReducer.js';
-import fotosReducer from './fotosReducer.js'
+import commentsReducer from './commentsReducer';
+import photosReducer from './photosReducers';
+import usersReducer from './usersReducer';
+import dependantsReducer from './dependantsReducer';
 
 export default combineReducers({
-	comentariosReducer,
-	fotosReducer
->>>>>>> leticia
+    commentsReducer,
+    photosReducer,
+    usersReducer,
+    dependantsReducer,
 });
