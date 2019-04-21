@@ -1,10 +1,10 @@
-export const GET = 'GetUsers';
 export const ERROR = 'ErrorUsers';
 export const LOADING = 'LoadingUsers';
+export const CREATEUSER = 'CreateUser';
+export const READUSERS = 'ReadUsers';
+export const UPDATEUSER = 'UpdateUser';
+export const DELETEUSER = 'DeleteUser';
 export const CHANGENAME = 'ChangeName';
 export const CHANGEFIRSTLASTNAME = 'ChangeFirstLastName';
 export const CHANGESECONDLASTNAME = 'ChangeSecondLastName';
 export const CHANGEAGE = 'ChangeAge';
-export const USERCREATED = 'UserCreated';
-export const USERUPDATED = 'UserUpdated';
-export const USERDELETED = 'UserDeleted';

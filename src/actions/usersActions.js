@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME, CHANGESECONDLASTNAME, CHANGEAGE, USERCREATED, USERUPDATED, USERDELETED } from '../types/usersTypes';
+import * as usersTypes from '../types/usersTypes';
 
 export const changeInput = (type, value) => (dispatch) => {
     dispatch({
@@ -8,30 +8,9 @@ export const changeInput = (type, value) => (dispatch) => {
     });
 };
 
-export const getUsers = () => async (dispatch) => {
-    dispatch({
-        type: LOADING
-    });
-
-    try {
-        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
-
-        dispatch({
-            type: GET,
-            payload: response.data
-        });
-    }
-    catch (error) {
-        dispatch({
-            type: ERROR,
-            payload: error.message
-        });
-    }
-};
-
 export const createUser = (user) => async (dispatch) => {
     dispatch({
-        type: LOADING
+        type: usersTypes.LOADING
     });
 
     try {
@@ -43,7 +22,7 @@ export const createUser = (user) => async (dispatch) => {
         );
 
         dispatch({
-            type: USERCREATED
+            type: usersTypes.CREATEUSER
         });
     }
     catch (error) {
@@ -53,14 +32,71 @@ export const createUser = (user) => async (dispatch) => {
         );
 
         dispatch({
-            type: ERROR
+            type: usersTypes.ERROR
+        });
+    }
+}
+
+export const readUsers = () => async (dispatch) => {
+    dispatch({
+        type: usersTypes.LOADING
+    });
+
+    try {
+        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
+
+        dispatch({
+            type: usersTypes.READUSERS,
+            payload: response.data
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: usersTypes.ERROR,
+            payload: error.message
+        });
+    }
+};
+
+export const readUser = (id) => async (dispatch) => {
+    dispatch({
+        type: usersTypes.LOADING
+    });
+
+    try {
+        const response = await axios.get(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${ id }`);
+
+        dispatch({
+            type: usersTypes.CHANGENAME,
+            payload: response.data[0].nombre
+        });
+
+        dispatch({
+            type: usersTypes.CHANGEFIRSTLASTNAME,
+            payload: response.data[0].apellidos.paterno
+        });
+
+        dispatch({
+            type: usersTypes.CHANGESECONDLASTNAME,
+            payload: response.data[0].apellidos.materno
+        });
+
+        dispatch({
+            type: usersTypes.CHANGEAGE,
+            payload: response.data[0].edad.toString()
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: usersTypes.ERROR,
+            payload: error.message
         });
     }
 }
 
 export const updateUser = (user, id) => async (dispatch) => {
     dispatch({
-        type: LOADING
+        type: usersTypes.LOADING
     });
 
     try {
@@ -72,7 +108,7 @@ export const updateUser = (user, id) => async (dispatch) => {
         );
 
         dispatch({
-            type: USERUPDATED
+            type: usersTypes.UPDATEUSER
         });
     }
     catch (error) {
@@ -82,26 +118,33 @@ export const updateUser = (user, id) => async (dispatch) => {
         );
 
         dispatch({
-            type: ERROR
+            type: usersTypes.ERROR
         });
     }
 }
 
 export const deleteUser = (id) => async (dispatch) => {
     dispatch({
-        type: LOADING
+        type: usersTypes.LOADING
     });
 
     try {
         await axios.delete(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${ id }`);
 
+        dispatch({
+            type: usersTypes.DELETEUSER
+        });
+
+        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
+
         window.Materialize.toast(
-            'El usuario esta muerto, o sea estiró la pata o chupó faros, colgó los tenis o se lo cargó el payaso en otras palabras, hay ya me aburrí de escribir más frases similares, consulta San Google, vales mil, besos, bye...',
+            'Usuario Eliminado Exitosamente',
             3000            
         );
 
         dispatch({
-            type: USERDELETED
+            type: usersTypes.READUSERS,
+            payload: response.data
         });
     }
     catch (error) {
@@ -111,7 +154,7 @@ export const deleteUser = (id) => async (dispatch) => {
         );
 
         dispatch({
-            type: ERROR
+            type: usersTypes.ERROR
         });
     }
 }
