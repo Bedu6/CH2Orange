@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'react-materialize';
 
-const UsersTable = (props) => (
+const DependentsTable = (props) => (
     <div
         s = { 12 }
         style = { { overflowX : 'auto' } }
@@ -9,11 +9,9 @@ const UsersTable = (props) => (
         <Table bordered hoverable>
             <thead>
                 <tr>
-                    <th>Apellido Paterno</th>
-                    <th>Apellido Materno</th>
-                    <th>Nombre(s)</th>
+                    <th>Nombre Completo</th>
                     <th>Edad</th>
-                    <th></th>
+                    <th>Tipo de Dependencia</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -25,4 +23,4 @@ const UsersTable = (props) => (
     </div>
 );
 
-export default UsersTable;
+export default DependentsTable;

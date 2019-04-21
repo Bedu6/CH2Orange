@@ -1,28 +1,5 @@
 import axios from 'axios';
-import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME,
-     CHANGESECONDLASTNAME, CHANGEAGE, USERCREATED, USERUPDATED, USERDELETED } from '../types/usersTypes';
-
-
-export const getUsers = () => async (dispatch) => {
-    dispatch({
-        type: LOADING
-    });
-
-    try {
-        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
-
-        dispatch({
-            type: GET,
-            payload: response.data
-        });
-    }
-    catch (error) {
-        dispatch({
-            type: ERROR,
-            payload: error.message
-        });
-    }
-};
+import * as usersTypes from '../types/usersTypes';
 
 export const changeInput = (type, value) => (dispatch) => {
     dispatch({
@@ -31,126 +8,153 @@ export const changeInput = (type, value) => (dispatch) => {
     });
 };
 
-export const getOneUser = (id) => async (dispatch) => {
+export const createUser = (user) => async (dispatch) => {
     dispatch({
-        type: LOADING
+        type: usersTypes.LOADING
     });
 
     try {
-    const response = await axios.get(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`);
+        await axios.post('https://g6-ch2.herokuapp.com/api/usuarios/orange', user);
 
+        window.Materialize.toast(
+            'Usuario Creado Exitosamente',
+            3000
+        );
 
         dispatch({
-            type: CHANGENAME,
+            type: usersTypes.CREATEUSER
+        });
+    }
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
+
+        dispatch({
+            type: usersTypes.ERROR
+        });
+    }
+}
+
+export const readUsers = () => async (dispatch) => {
+    dispatch({
+        type: usersTypes.LOADING
+    });
+
+    try {
+        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
+
+        dispatch({
+            type: usersTypes.READUSERS,
+            payload: response.data
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: usersTypes.ERROR,
+            payload: error.message
+        });
+    }
+};
+
+export const readUser = (id) => async (dispatch) => {
+    dispatch({
+        type: usersTypes.LOADING
+    });
+
+    try {
+        const response = await axios.get(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${ id }`);
+
+        dispatch({
+            type: usersTypes.CHANGENAME,
             payload: response.data[0].nombre
         });
 
         dispatch({
-            type: CHANGEFIRSTLASTNAME,
+            type: usersTypes.CHANGEFIRSTLASTNAME,
             payload: response.data[0].apellidos.paterno
         });
 
         dispatch({
-            type: CHANGESECONDLASTNAME,
+            type: usersTypes.CHANGESECONDLASTNAME,
             payload: response.data[0].apellidos.materno
         });
 
         dispatch({
-            type: CHANGEAGE,
-            payload: response.data[0].edad
+            type: usersTypes.CHANGEAGE,
+            payload: response.data[0].edad.toString()
         });
     }
     catch (error) {
         dispatch({
-			type: ERROR,
-			payload: error.message
-		});
-	}
-};
+            type: usersTypes.ERROR,
+            payload: error.message
+        });
+    }
+}
 
-export const addUser = (user) => async (dispatch) => {
+export const updateUser = (user, id) => async (dispatch) => {
     dispatch({
-        type: LOADING
+        type: usersTypes.LOADING
     });
 
     try {
-        console.log(user);
-
-        const resp= await axios.post('https://g6-ch2.herokuapp.com/api/usuarios/orange', user);
-        console.log(resp);
-
-        dispatch({
-            type: USERCREATED
-        });
+        await axios.post(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${ id }`, user);
 
         window.Materialize.toast(
-            'Usuario Guardado Exitosamente',
+            'Usuario Actualizado Exitosamente',
             3000
-        );   
-    }
-    catch (error) {
-        console.log(error.message);
-        window.Materialize.toast(
-            'Problemas al guardar el usuario, intenta de nuevo', 
-			2000
         );
 
         dispatch({
-            type: ERROR
+            type: usersTypes.UPDATEUSER
         });
     }
-};
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
 
-export const editUser = (user, id) => async (dispatch)=>{
-
-    dispatch({ type: LOADING });
-	
-	try{
-		await axios.put(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${id}`, user);
-
-		dispatch({ type: USERUPDATED });
-
-		window.Materialize.toast(
-			'Editado exitosamente', 
-			1300
-		);
-	}
-	catch(error){
-		window.Materialize.toast(
-			'Problemas al editar comentario, intenta de nuevo', 
-			2000
-		);
-		dispatch({ type: ERROR });
-	}
-
-};
-
+        dispatch({
+            type: usersTypes.ERROR
+        });
+    }
+}
 
 export const deleteUser = (id) => async (dispatch) => {
     dispatch({
-        type: LOADING
+        type: usersTypes.LOADING
     });
 
     try {
         await axios.delete(`https://g6-ch2.herokuapp.com/api/usuarios/orange/${ id }`);
 
+        dispatch({
+            type: usersTypes.DELETEUSER
+        });
+
+        const response = await axios.get('https://g6-ch2.herokuapp.com/api/usuarios/orange');
+
         window.Materialize.toast(
-            'El usuario esta muerto, o sea estiró la pata o chupó faros, colgó los tenis o se lo cargó el payaso en otras palabras, hay ya me aburrí de escribir más frases similares, consulta San Google, vales mil, besos, bye...',
+            'Usuario Eliminado Exitosamente',
             3000            
         );
 
         dispatch({
-            type: USERDELETED
+            type: usersTypes.READUSERS,
+            payload: response.data
         });
     }
     catch (error) {
         window.Materialize.toast(
-           'Problemas al eliminar usuario',
+            error.message,
             3000
         );
 
         dispatch({
-            type: ERROR
+            type: usersTypes.ERROR
         });
     }
-};
+}

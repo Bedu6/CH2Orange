@@ -1,116 +1,195 @@
 import axios from 'axios';
-import { GETDEPENDENTS, GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME, CHANGERELATION,
-  CHANGESECONDLASTNAME, CHANGEAGE, USERCREATED, USERUPDATED, USERDELETED, USER_ID } from '../types/dependentsTypes.js';
+import * as dependentsTypes from '../types/dependentsTypes';
 
-export const getDependents = (id) => async (dispatch) => {
-
-	dispatch({ type: LOADING });
-
-	try{
-		///api/dependientes_usuario/nombre_equipo/usuario_id
-		const response = await axios.get(`https://g6-ch2.herokuapp.com/api/dependientes/orange/${id}`);
-
-		dispatch({
-			type: GETDEPENDENTS,
-			payload: response.data
-		});
-	}
-	catch(error){
-		dispatch({
-			type: ERROR,
-			payload: error.message
-		});
-	}
+export const changeInput = (type, value) => (dispatch) => {
+    dispatch({
+        type: type,
+        payload: value
+    });
 };
 
-export const changeInput = (caso, text) => (dispatch) => {
-	dispatch({
-		type: caso,
-		payload: text
-	});
+export const createDependent = (dependent) => async (dispatch) => {
+    dispatch({
+        type: dependentsTypes.LOADING
+    });
+
+    try {
+        await axios.post('https://g6-ch2.herokuapp.com/api/dependientes/orange', dependent);
+
+        window.Materialize.toast(
+            'Dependiente Creado Exitosamente',
+            3000
+        );
+
+        dispatch({
+            type: dependentsTypes.CREATEDEPENDENT
+        });
+    }
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
+
+        dispatch({
+            type: dependentsTypes.ERROR
+        });
+    }
+}
+
+export const readDependents = () => async (dispatch) => {
+    dispatch({
+        type: dependentsTypes.LOADING
+    });
+
+    try {
+        const response = await axios.get('https://g6-ch2.herokuapp.com/api/dependientes/orange');
+
+        dispatch({
+            type: dependentsTypes.READDEPENDENTS,
+            payload: response.data
+        });
+
+        dispatch({
+            type: dependentsTypes.CHANGEROUTEFLAG,
+            payload: false
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: dependentsTypes.ERROR,
+            payload: error.message
+        });
+    }
 };
 
+export const readUserDependents = (id) => async (dispatch) => {
+    dispatch({
+        type: dependentsTypes.LOADING
+    });
 
-export const createUser = (id) => async (dispatch) => {
-	dispatch({ type: LOADING });
+    try {
+        const response = await axios.get(`https://g6-ch2.herokuapp.com/api/dependientes_usuario/orange/${ id }`);
+        
+        dispatch({
+            type: dependentsTypes.READDEPENDENTS,
+            payload: response.data
+        });
 
-	try{
-		const response = await axios.get(`https://g6-ch2.herokuapp.com/api/dependientes/orange/${id}`);
-
-		dispatch({
-			type: CHANGENAME,
-			payload: `${response.data[0].nombre} ${response.data[0].apellidos.paterno} ${response.data[0].apellidos.materno}`
-		});
-	}
-	catch(error){
-
-		dispatch({
-			type: ERROR,
-			payload: error.message
-		});
-	}
+        dispatch({
+            type: dependentsTypes.CHANGEROUTEFLAG,
+            payload: true
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: dependentsTypes.ERROR,
+            payload: error.message
+        });
+    }
 };
 
+export const readDependent = (id) => async (dispatch) => {
+    dispatch({
+        type: dependentsTypes.LOADING
+    });
 
-export const addUser = (dependent) => async (dispatch) => {
+    try {
+        const response = await axios.get(`https://g6-ch2.herokuapp.com/api/dependientes/orange/${ id }`);
 
-	console.log(dependent);
+        dispatch({
+            type: dependentsTypes.CHANGEFULLNAME,
+            payload: response.data[0].nombre_completo
+        });
 
-	dispatch({ type: LOADING });	
-	
-	try{
-		await axios.post('https://g6-ch2.herokuapp.com/api/dependientes/orange', dependent);		
+        dispatch({
+            type: dependentsTypes.CHANGEAGE,
+            payload: response.data[0].edad.toString()
+        });
 
-		dispatch({
-			type: USERCREATED
-		});
+        dispatch({
+            type: dependentsTypes.CHANGEDEPENDENCETYPE,
+            payload: response.data[0].dependencia
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: dependentsTypes.ERROR,
+            payload: error.message
+        });
+    }
+}
 
-		console.log(4);
+export const updateDependent = (dependent, id) => async (dispatch) => {
+    dispatch({
+        type: dependentsTypes.LOADING
+    });
 
-		window.Materialize.toast(
-			'Guardado exitosamente', 
-			1300
-		);		
-	}
-	catch(error){
-			
-		window.Materialize.toast(
-			'Problemas al guardar el dependiente', 
-			2000
-		);
-		dispatch({ type: ERROR });
-	}
+    try {
+        await axios.post(`https://g6-ch2.herokuapp.com/api/dependientes/orange/${ id }`, dependent);
 
-};
+        window.Materialize.toast(
+            'Dependiente Actualizado Exitosamente',
+            3000
+        );
 
-export const getOneDependent = (id) => async (dispatch) => {
-	dispatch({ type: LOADING });
+        dispatch({
+            type: dependentsTypes.UPDATEDEPENDENT
+        });
+    }
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
 
-	try{
-		const response = await axios.get(`https://g6-ch2.herokuapp.com/api/dependientes/orange/${id}`);
+        dispatch({
+            type: dependentsTypes.ERROR
+        });
+    }
+}
 
-		console.log(response);
+export const deleteDependent = (dependentId, userId, routeFlag) => async (dispatch) => {
+    dispatch({
+        type: dependentsTypes.LOADING
+    });
 
-		dispatch({
-			type: CHANGENAME,
-			payload: response.data[0].nombre_completo
-		});
+    try {
+        await axios.delete(`https://g6-ch2.herokuapp.com/api/dependientes/orange/${ dependentId }`);
 
-		dispatch({
-			type: CHANGERELATION,
-			payload: response.data[0].dependencia
-		});
+        dispatch({
+            type: dependentsTypes.DELETEDEPENDENT
+        });
 
-		dispatch({
-			type: CHANGEAGE,
-			payload: response.data[0].edad
-		});
-	}
-	catch(error){
-		dispatch({
-			type: ERROR,
-			payload: error.message
-		});
-	}
-};
+        let url = "";
 
+        if (routeFlag) {
+            url = `https://g6-ch2.herokuapp.com/api/dependientes_usuario/orange/${ userId }`
+        }
+        else {
+            url = "https://g6-ch2.herokuapp.com/api/dependientes/orange"
+        }
+
+        const response = await axios.get(url);
+
+        window.Materialize.toast(
+            'Dependiente Eliminado Exitosamente',
+            3000            
+        );
+
+        dispatch({
+            type: dependentsTypes.READDEPENDENTS,
+            payload: response.data
+        });
+    }
+    catch (error) {
+        window.Materialize.toast(
+            error.message,
+            3000
+        );
+
+        dispatch({
+            type: dependentsTypes.ERROR
+        });
+    }
+}

@@ -1,5 +1,22 @@
-.display-flex {
-    display: flex;
+@media (max-width: 768px) {
+    .display-flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .left-space {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .display-flex {
+        display: flex;
+    }
+
+    .left-space {
+        margin-left: 24px;
+    }
 }
 
 .vertical-center {
@@ -12,10 +29,6 @@
 
 .top-space {
     margin-top: 16px;
-}
-
-.left-space {
-    margin-left: 32px;
 }
 
 .pointer {

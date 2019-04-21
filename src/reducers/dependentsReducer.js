@@ -1,48 +1,50 @@
-import { GETDEPENDENTS, ERROR, LOADER, CHANGENAME, CHANGERELATION, 
-  CHANGEAGE, USERCREATED, EDITED, USER_ID } from '../types/dependentsTypes.js';
-import { LOADING, USERUPDATED } from '../types/usersTypes.js';
- 
- const INITIAL_STATE = {
-   dependents: [],
-   loading: false,
-   error: '',
-   nombre: '',
-   relacion: '',  
-   edad: '',
-   usuario_id: ''
- };
- 
- export default (state = INITIAL_STATE, action) =>{
- 
-   switch (action.type){
-      
-      case GETDEPENDENTS:
-          return{ ...state, dependents: action.payload, loading: false };
-      
-      case ERROR:
-          return{ ...state, error: action.payload, loading: false };
- 
-      case LOADING:
-          return{ ...state, loading: true};
- 
-      case CHANGENAME:
-          return{ ...state, nombre: action.payload, loading: false};
- 
-      case CHANGERELATION:
-          return{ ...state, relacion: action.payload, loading: false};
+import * as dependentsTypes from '../types/dependentsTypes';
 
-      case CHANGERELATION:
-          return{ ...state, edad: action.payload, loading: false};
- 
-      case USERCREATED:
-          return{ ...state, nombre: '', relacion: '', edad: '', loading: false, dependents: []};
- 
-      case USERUPDATED:
-          return{ ...state, loading: false, dependents: []};
+const INITIAL_STATE = {
+    error: '',
+    loading: false,
+    dependents: [],
+    id: '',
+    userId: '',
+    fullName: '',
+    age: '',
+    dependenceType: '',
+    routeFlag: false
+};
 
-      case USER_ID:
-          return{ ...state, user_id: action.payload, loading: false};
-      
-      default: return state;
-   }
- }
+export default (state = INITIAL_STATE, action) => {
+    switch (action.type) {
+        case dependentsTypes.ERROR:
+            return { ...state, error: action.payload, loading: false };
+        
+        case dependentsTypes.LOADING:
+			return { ...state, loading: true };
+		
+        case dependentsTypes.CREATEDEPENDENT:
+            return { ...state, dependents: [], fullName: '', age: '', dependenceType: '', loading: false };
+        
+		case dependentsTypes.READDEPENDENTS:
+            return { ...state, dependents: action.payload, loading: false };
+		
+		case dependentsTypes.UPDATEDEPENDENT:
+			return { ...state, dependents: [], loading: false };
+		
+		case dependentsTypes.DELETEDEPENDENT:
+			return { ...state, dependents: [] };
+        
+        case dependentsTypes.CHANGEFULLNAME:
+            return { ...state, fullName: action.payload, loading: false };
+
+        case dependentsTypes.CHANGEAGE:
+            return { ...state, age: action.payload, loading: false };
+        
+        case dependentsTypes.CHANGEDEPENDENCETYPE:
+            return { ...state, dependenceType: action.payload, loading: false };
+        
+        case dependentsTypes.CHANGEROUTEFLAG:
+            return { ...state, routeFlag: action.payload };
+        
+        default:
+            return state;
+    }
+}

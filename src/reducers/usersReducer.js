@@ -1,48 +1,47 @@
-import { GET, ERROR, LOADING, CHANGENAME, CHANGEFIRSTLASTNAME, CHANGESECONDLASTNAME, CHANGEAGE, USERCREATED, USERUPDATED, USERDELETED } from '../types/usersTypes';
+import * as usersTypes from '../types/usersTypes';
 
 const INITIAL_STATE = {
-    loading: false,
     error: '',
-    usuarios: [],
+    users: [],
     id: '',
-    nombre: '',
-    apellido_paterno: '',
-    apellido_materno: '',
-    edad: ''
+    name: '',
+    firstLastName: '',
+    secondLastName: '',
+    age: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case GET:
-            return { ...state, usuarios: action.payload, loading: false };
-
-        case ERROR:
+        case usersTypes.ERROR:
             return { ...state, error: action.payload, loading: false };
+        
+        case usersTypes.LOADING:
+			return { ...state, loading: true };
+		
+        case usersTypes.CREATEUSER:
+            return { ...state, users: [], name: '', firstLastName: '', secondLastName: '', age: '', loading: false };
+        
+		case usersTypes.READUSERS:
+			return { ...state, users: action.payload, loading: false };
+		
+		case usersTypes.UPDATEUSER:
+			return { ...state, users: [], loading: false };
+		
+		case usersTypes.DELETEUSER:
+			return { ...state, users: [], loading: false };
+        
+        case usersTypes.CHANGENAME:
+            return { ...state, name: action.payload, loading: false };
 
-        case LOADING:
-            return { ...state, loading: true };
-
-        case CHANGENAME:
-            return { ...state, nombre: action.payload, loading: false };
-
-        case CHANGEFIRSTLASTNAME:
-            return { ...state, apellido_paterno: action.payload, loading: false };
-
-        case CHANGESECONDLASTNAME:
-            return { ...state, apellido_materno: action.payload, loading: false };
-
-        case CHANGEAGE:
-            return { ...state, edad: action.payload, loading: false };
-
-        case USERCREATED:
-            return { ...state, usuarios: [], nombre: '', apellido_paterno: '', apellido_materno: '', edad: 0, loading: false };
-
-        case USERUPDATED:
-            return { ...state, loading: false, usuarios: []};
-
-        case USERDELETED:
-            return { ...state, users: [], loading: false };
-            
+        case usersTypes.CHANGEFIRSTLASTNAME:
+            return { ...state, firstLastName: action.payload, loading: false };
+        
+        case usersTypes.CHANGESECONDLASTNAME:
+            return { ...state, secondLastName: action.payload, loading: false };
+        
+        case usersTypes.CHANGEAGE:
+            return { ...state, age: action.payload, loading: false };
+        
         default:
             return state;
     }
