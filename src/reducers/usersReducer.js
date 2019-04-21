@@ -2,7 +2,6 @@ import * as usersTypes from '../types/usersTypes';
 
 const INITIAL_STATE = {
     error: '',
-    loading: false,
     users: [],
     id: '',
     name: '',
